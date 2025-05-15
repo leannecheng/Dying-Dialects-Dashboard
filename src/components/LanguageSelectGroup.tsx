@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Select,
   SelectContent,
@@ -9,7 +8,11 @@ import {
   SelectValue,
 } from './Select';
 
-export function LanguageSelectGroup({ onSelect }) {  // Accept the onSelect prop
+interface LanguageSelectGroupProps {
+  onSelect: (value: string) => void;
+}
+
+export function LanguageSelectGroup({ onSelect }: LanguageSelectGroupProps) {
   const languageData = [
     {
       label: 'General Information',
@@ -49,8 +52,7 @@ export function LanguageSelectGroup({ onSelect }) {  // Accept the onSelect prop
     },
   ];
 
-  // Handle selection change
-  const handleSelection = (value) => {
+  const handleSelection = (value: string) => {
     if (onSelect) {
       onSelect(value);
     }
@@ -58,7 +60,7 @@ export function LanguageSelectGroup({ onSelect }) {  // Accept the onSelect prop
 
   return (
     <div className="w-[250px]">
-      <Select onValueChange={handleSelection}> {/* Capture selection changes */}
+      <Select onValueChange={handleSelection}>
         <SelectTrigger>
           <SelectValue placeholder="Select a language" />
         </SelectTrigger>

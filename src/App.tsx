@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { BarChart } from './components/BarChart';
+import { useState, useEffect } from 'react';
 import { LineChart } from './components/LineChart';
 import { Card } from './components/Card';
 import asianlanData from './data/asianlan.json';
@@ -7,25 +6,44 @@ import { LanguageSelectGroup } from './components/LanguageSelectGroup';
 
 import './App.css';
 
+interface EnrollmentRecord {
+  year: string;
+  term: string;
+  level?: string;
+  enrollment: number;
+  language: string;
+}
+
+interface EnrollmentData {
+  [year: string]: number;
+}
+
 function App() {
-  const [enrollmentData, setEnrollmentData] = useState({ winterEnrollments: {}, fallEnrollments: {} });
-  const [enrollmentData2, setEnrollmentData2] = useState({ beginner: {}, intermediate: {}, advanced: {} });
-  const [selectedLanguage, setSelectedLanguage] = useState('all-languages');
-  const [lineChartData, setLineChartData] = useState([]);
-  const [lineChartData2, setLineChartData2] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('all-languages');
+  const [lineChartData, setLineChartData] = useState<{
+    year: string;
+    Winter: number;
+    Fall: number;
+  }[]>([]);
+  const [lineChartData2, setLineChartData2] = useState<{
+    year: string;
+    Beginner: number;
+    Intermediate: number;
+    Advanced: number;
+  }[]>([]);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
   }, []);
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = (value: string) => {
     setSelectedLanguage(value);
   };
 
   useEffect(() => {
-    function processEnrollmentData(data) {
-      const winterEnrollments = {};
-      const fallEnrollments = {};
+    function processEnrollmentData(data: EnrollmentRecord[]) {
+      const winterEnrollments: EnrollmentData = {};
+      const fallEnrollments: EnrollmentData = {};
 
       data.forEach(({ year, term, enrollment, language }) => {
         if (language === selectedLanguage || selectedLanguage === 'all-languages') {
@@ -41,10 +59,10 @@ function App() {
       return { winterEnrollments, fallEnrollments };
     }
 
-    function processEnrollmentDataLevels(data) {
-      const beginner = {};
-      const intermediate = {};
-      const advanced = {};
+    function processEnrollmentDataLevels(data: EnrollmentRecord[]) {
+      const beginner: EnrollmentData = {};
+      const intermediate: EnrollmentData = {};
+      const advanced: EnrollmentData = {};
 
       data.forEach(({ year, level, enrollment, language }) => {
         if (language === selectedLanguage || selectedLanguage === 'all-languages') {
@@ -63,7 +81,7 @@ function App() {
       return { beginner, intermediate, advanced };
     }
 
-    const cleanedData = asianlanData.map((item) => ({
+    const cleanedData: EnrollmentRecord[] = asianlanData.map((item: any) => ({
       ...item,
       year: item.year.toString(),
     }));
@@ -86,8 +104,6 @@ function App() {
       Advanced: levelData.advanced[year] || 0,
     }));
 
-    setEnrollmentData(processed);
-    setEnrollmentData2(levelData);
     setLineChartData(computedLineChartData);
     setLineChartData2(computedLineChartData2);
   }, [selectedLanguage]);
@@ -162,7 +178,7 @@ function App() {
               rel="noopener noreferrer"
               className="underline hover:text-indigo-300 transition-colors"
             >
-              Leanne Cheng
+              Leanne
             </a>{' '}
             • Powered by React + Tailwind CSS
           </div>
