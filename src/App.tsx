@@ -166,7 +166,7 @@ function App() {
       <footer className="mt-24 text-sm text-gray-400 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center gap-8 border-t pt-6 border-gray-700">
           <img
-            src="/umich-lrc-logo.png"
+            src={`${import.meta.env.BASE_URL}umich-lrc-logo.png`}
             alt="University of Michigan LRC"
             className="w-[36rem] h-auto object-contain opacity-95"
           />
@@ -178,7 +178,7 @@ function App() {
               rel="noopener noreferrer"
               className="underline hover:text-indigo-300 transition-colors"
             >
-              Leanne
+              Leanne Cheng
             </a>{' '}
             • Powered by React + Tailwind CSS
           </div>
